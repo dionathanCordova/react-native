@@ -1,4 +1,4 @@
-package com.appcardapio;
+package com.dadosexercicio;
 
 import android.app.Application;
 
