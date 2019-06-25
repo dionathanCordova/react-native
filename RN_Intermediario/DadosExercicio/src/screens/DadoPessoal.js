@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 	boxDatas:{
 		flex:1,
 		flexDirection:'row',
-		width:310,
+		width:320,
 	},
 	titulo:{
 		fontSize: 20,
