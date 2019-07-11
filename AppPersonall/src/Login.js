@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, StyleSheet, ImageBackground, Image, Dimensions, TouchableOpacity} from 'react-native';
-
+import {View, Text, TextInput, StyleSheet, ImageBackground, Image, Dimensions, TouchableOpacity, AsyncStorage} from 'react-native';
+import {YellowBox} from 'react-native';
 import bgImage from '../assets/images/rank.png'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -16,12 +16,22 @@ export default class Login extends Component{
     constructor(props) {
         super(props)
 
+        console.ignoredYellowBox = true;
+        YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);  // <- insert the warning text here you wish to hide. 
+ 
         this.state = {
             email: '',
             senha: ''
         }
 
         this.logar = this.logar.bind(this);
+
+        AsyncStorage.getItem('email').then((value) => {
+            if(value != null) {
+                this.props.navigation.navigate('Home', {email : value});
+            }
+            this.setState({email: value})
+        })
     }
 
     logar() {
@@ -37,15 +47,25 @@ export default class Login extends Component{
 			headers: {
 				Accept:'application/json',
 				'Content-Type': 'multipart/form-data',
-			  },
+            },
 			body: formData,
 		})
 		.then((response) => response.json())
 		.then((responseJson) => {
             if(responseJson.msg != 'Dados de login incorretos') {
-                alert(responseJson.msg[0].id);
-                this.props.navigation.navigate('Home', {'idPersonal': responseJson.msg[0].id})
-            }else{
+
+                AsyncStorage.setItem('email', responseJson.userData[0].email);
+                AsyncStorage.setItem('token', responseJson.userData[0].token);
+                AsyncStorage.setItem('userstatus', responseJson.userData[0].userstatus);
+                if(responseJson.userData[0].userstatus == 'personal') {
+                    AsyncStorage.setItem('personal_id', responseJson.userData[0].id);
+                }else{
+                    AsyncStorage.setItem('personal_id', 0);
+                }
+               
+                this.props.navigation.navigate('Home')
+                               
+            }else{;
                 alert('Dados Incorretos, tente novamente');
             }        
 			

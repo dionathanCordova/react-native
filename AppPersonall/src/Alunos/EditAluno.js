@@ -17,16 +17,10 @@ export default class CadastroAluno extends Component{
                 {nome: 'FEMININO'}
             ],
             email: '',
-            nome: '',
+            nome: this.props.navigation.getParam('nome'),
             dataNascimento : '',
             personal_id: ''
         }
-
-        AsyncStorage.getItem('personal_id').then((value) => {
-            if(value != '') {
-                this.setState({personal_id: value})
-            }           
-        })
 
         this.cadastrar = this.cadastrar.bind(this);   
 
@@ -46,8 +40,6 @@ export default class CadastroAluno extends Component{
         let dataNascimento = state.dataNascimento;
         let sexo = state.selectedSexo;
         let personal_id = state.personal_id;
-
-        alert('SEHNA: ' + senha + '\n' + 'NOME: ' + nome + '\n' + 'EMAIL: ' + email + '\n' + 'DATANASCIMENTO: ' + dataNascimento + '\nSEXO: ' + sexo + '\nPID: ' + personal_id);
 
         // CODIGO NO APP REACT NATIVE
 		let formData = new FormData();
@@ -87,10 +79,11 @@ export default class CadastroAluno extends Component{
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.Main}>
+                        
                         <Text>{this.state.filmes}</Text>
                         <View style={styles.boxInput}>
                             <Text style={styles.label}>Nome</Text>
-                            <TextInput style={styles.TextInput} placeholder='Nome Completo' onChangeText={(nome) => this.setState({nome})}/>
+                            <TextInput style={styles.TextInput} placeholder='Nome Completo' value={this.state.nome} onChangeText={(nome) => this.setState({nome})}/>
                         </View>
 
                         <View style={styles.boxInput}>

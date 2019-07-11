@@ -3,8 +3,11 @@ import { createStackNavigator, createAppContainer} from 'react-navigation';
 import Login from './src/Login';
 // import GetPhoto from './src/GetPhoto';
 import Home from './src/Home';
-import Alunos from './src/Alunos';
-import AlunosGeral from './src/AlunosGeral';
+
+import Alunos from './src/Alunos/Alunos';
+import AlunosGeral from './src/Alunos/AlunosGeral';
+import AlunosEdit from './src/Alunos/EditAluno';
+ 
 import Avaliacao from './src/Avaliacao';
 import Exercicio from './src/Exercicio';
 import Rank from './src/Rank';
@@ -15,6 +18,7 @@ const Navegador = createStackNavigator({
 	// GetPhoto: {screen: GetPhoto},
 	Home: {screen: Home},
 	Alunos: {screen: Alunos},
+	AlunosEdit: {screen: AlunosEdit},
 	Avaliacao: {screen: Avaliacao},
 	Exercicio: {screen: Exercicio},
 	Rank: {screen: Rank},

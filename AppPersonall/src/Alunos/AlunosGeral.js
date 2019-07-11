@@ -15,19 +15,56 @@ export default class CadastroAluno extends Component {
         title : 'Opções Alunos',
     }
 
+    constructor(props) {
+        super(props)
+
+        this.setStatus = this.setStatus.bind(this);
+    }
+
+    setStatus() {
+
+        let formData = new FormData();
+        formData.append('id_usuario', this.props.navigation.getParam('id'));
+
+        fetch('https://wspersonalapp.herokuapp.com/api/setStatus', {
+			method: 'POST',	
+			headers: {
+				Accept:'application/json',
+				'Content-Type': 'multipart/form-data',
+            },
+			body: formData,
+		})
+		.then((response) => response.json())
+		.then((responseJson) => {
+            if(responseJson.msg == 'true') {
+
+                this.props.navigation.navigate('Home')
+                               
+            }else{
+                alert('Dados Incorretos, tente novamente');
+            }        
+			
+		})
+		.catch((error) => {
+			console.error(error);
+        });
+    }
+
+
     render() {
         return (
         <View style={styles.container}>            
            
             <View style={styles.BoxMenus}>
+
                 <View style={styles.boxInfo}>
                     <View style={styles.infoGeral}> 
                         <Text style={styles.infoNome}> {this.props.navigation.getParam('nome')}</Text>
                     </View>
                 </View>
              
-                <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Alunos')}>
-                    <Image source={require('../assets/images/aluno.jpg')} resizeMode='contain' style={styles.img}/>
+                <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('AlunosEdit', {nome: this.props.navigation.getParam('nome'), id:this.props.navigation.getParam('id') })}>
+                    <Image source={require('../../assets/images/aluno.jpg')} resizeMode='contain' style={styles.img}/>
                     
                     <View style={styles.infoPage}>
                         <Text style={styles.Cadastrotitle}>Atualizar</Text>
@@ -35,7 +72,7 @@ export default class CadastroAluno extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Avaliacao')}>
-                    <Image source={require('../assets/images/avaliacao.png')} resizeMode='contain' style={styles.img}/>
+                    <Image source={require('../../assets/images/avaliacao.png')} resizeMode='contain' style={styles.img}/>
                     
                     <View style={styles.infoPage}>
                         <Text style={styles.Cadastrotitle}>Avaliações</Text>
@@ -43,7 +80,7 @@ export default class CadastroAluno extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Exercicio')}>
-                    <Image source={require('../assets/images/exercicio.png')} resizeMode='contain' style={styles.img}/>
+                    <Image source={require('../../assets/images/exercicio.png')} resizeMode='contain' style={styles.img}/>
                         
                     <View style={styles.infoPage}>                            
                         <Text style={styles.Cadastrotitle}>Treinos</Text>
@@ -51,23 +88,23 @@ export default class CadastroAluno extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Rank')}>
-                    <Image source={require('../assets/images/calendario.png')} resizeMode='contain' style={styles.img}/>
+                    <Image source={require('../../assets/images/calendario.png')} resizeMode='contain' style={styles.img}/>
                         
                     <View style={styles.infoPage}> 
                         <Text style={styles.Cadastrotitle}>Calendário</Text>
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Rank')}>
-                    <Image source={require('../assets/images/ativardesativar.jpg')} resizeMode='contain' style={styles.img}/>
+                <TouchableOpacity style={styles.boxcadastro} onPress={() => this.setStatus()}>
+                    <Image source={require('../../assets/images/ativardesativar.jpg')} resizeMode='contain' style={styles.img}/>
                         
                     <View style={styles.infoPage}> 
-                        <Text style={styles.Cadastrotitle}>Desativar</Text>
+                        <Text style={styles.Cadastrotitle}>Ativar / Desativar</Text>
                     </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.boxcadastro} onPress={() => this.props.navigation.navigate('Rank')}>
-                    <Image source={require('../assets/images/excluir.png')} resizeMode='contain' style={styles.img}/>
+                    <Image source={require('../../assets/images/excluir.png')} resizeMode='contain' style={styles.img}/>
                         
                     <View style={styles.infoPage}> 
                         <Text style={styles.Cadastrotitle}>Excluir</Text>

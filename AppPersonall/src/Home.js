@@ -1,12 +1,20 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-
+import {Platform, StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage} from 'react-native';
+import {YellowBox} from 'react-native';
 export default class App extends Component {
 
     constructor(props) {
         super(props)
 
+        console.ignoredYellowBox = true;
+        YellowBox.ignoreWarnings(['Warning:']);  // <- insert the warning text here you wish to hide. 
+ 
+        AsyncStorage.getItem('email').then((value) => {
+            if(value != '') {
+                this.setState({email: value})
+            }           
+        })
     }
 
     static navigationOptions = {
@@ -21,7 +29,6 @@ export default class App extends Component {
                 source={{ uri: 'https://www.matrizesdebordados.com/image/cache/data/logotipos%20/academia1-800x800.png'}} 
                 style={{width: 140, height: 140, borderRadius: 140/ 2, marginTop: 10}}             
             />
-            <Text>{this.props.navigation.getParam('idPersonal')}</Text>
             <View style={styles.boxInfo}>
                 <View style={styles.infoGeral}> 
                     <Text style={styles.infoNum}>59</Text>
